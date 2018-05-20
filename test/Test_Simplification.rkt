@@ -1,0 +1,76 @@
+#lang typed/racket
+
+(require "../src/Definition.rkt")
+
+(require "../src/Fonctions.rkt")
+(require "../src/Simplification.rkt")
+(require "../src/Affichage.rkt")
+
+(require "../src/Bibliotheque.rkt")
+(require "../src/Derivation.rkt")
+
+
+;; Tests Simplification
+(display "\n**Tests de Simplifications.rkt**\n")
+
+(display "\nTest de factorise (1/3): Addition\n")
+(display "factorise:\n")
+(print_expr (factorise (oper '+ (list 2 3))));;
+(display "Attendu:\n5\n")
+(display "Test de factorise (2/3): Récursivité \n")
+(display "factorise:\n")
+(print_expr (factorise (oper '+ (list 2 (oper '+ (list 2 3))))))
+(display "Attendu:\n7\n")
+(display "Test de factorise (3/3): Multiplication\n")
+(display "factorise:\n")
+(print_expr (factorise (oper '* (list 2 3))))
+(display "Attendu:\n6\n")
+
+(display "\nTest de fact_neutre (1/2)\n")
+(display "fact_neutre:\n")
+(print_expr (fact_neutre (oper '* (list 2 3 5 0))))
+(display "Attendu:\n0\n")
+(display "Test de fact_neutre (2/2): Récursivité\n")
+(display "fact_neutre:\n")
+(print_expr (fact_neutre (oper '* (list 2 3 (oper '* (list 2 0))))))
+(display "Attendu:\n0\n")
+
+(display "\nTest de fact_suppr (1/3): Multiplication\n")
+(display "fact_suppr:\n")
+(print_expr (fact_suppr (oper '* (list 2 3 1 2 1))))
+(display "Attendu:(2 * 3 * 2)\n")
+(display "Test de fact_suppr (2/3): Addition\n")
+(display "fact_suppr:\n")
+(print_expr (fact_suppr (oper '+ (list 2 0 4 6 0))))
+(display "Attendu:\n(2 + 4 + 6)\n")
+(display "Test de fact_suppr (3/3): Récursivité\n")
+(display "fact_suppr:\n")
+(print_expr (fact_suppr (oper '+ (list 2 (oper '* (list 2 3 0)) (oper '+ (list 2 0))))))
+(display "Attendu:\n(2 + (2 * 3) + 2)\n")
+
+(display "\nTest de conc_s* (1/3)\n")
+(display "conc_s*:\n")
+(print_expr (conc_s* (oper '+ (list 2 (oper '+ (list 2 3)) 0 1)) '+))
+(display "Attendu:\n(2 + 2 + 3 + 0 + 1)\n")
+(display "Test de conc_s* (2/3): Imbrication\n")
+(display "conc_s*:\n")
+(print_expr (conc_s* (oper '* (list 2 (oper '+ (list 4 5)) (oper '* (list 2 3)) 0 1))'*))
+(display "Attendu:\n(2 * (4 + 5) * 2 * 3 * 0 * 1)\n")
+(display "Test de conc_s* (3/3): Récursivité\n")
+(display "conc_s*:\n")
+(print_expr (conc_s* (oper '* (list 2 (oper '* (list 4 (oper '* (list 2 5)))))) '*))
+(display "Attendu:\n(2 * 4 * 2 * 5)\n")
+
+(display "\nTest de developpe (1/2)\n")
+(display "developpe:\n")
+(print_expr (developpe (oper '* (list 5 (oper '+ (list 2 3)) 4))))
+(display "Attendu:\n((2 * 4 * 5) + (3 * 4 * 5))\n")
+(display "Test de developpe (2/2)\n")
+(display "developpe:\n")
+(print_expr (developpe (oper '* (list 2 (oper '+ (list 2 5 (oper '* (list 2 3))))))))
+(display "Attendu:\n((2 * 2) + (5 * 2) + (2 * 2 * 3))\n")
+
+(display "\nTest de diff-somme\n")
+(display "diff-somme:\n")
+(print_expr (diff-somme (oper '- (list 2 3 5 0))))
+(display "Attendu:\n(2 - 3 - 5 + 0)\n")
